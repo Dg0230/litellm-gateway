@@ -46,11 +46,24 @@ create_key() {
         }" | python3 -m json.tool 2>/dev/null || cat
 }
 
-# 列出所有 Key
+# 列出所有 Key (通过数据库查询，LiteLLM API 不支持列出所有)
 list_keys() {
     printf "${GREEN}所有 Key 列表:${NC}\n"
-    curl -s "$GATEWAY_URL/key/info?get_all_keys=true" \
-        -H "Authorization: Bearer $LITELLM_MASTER_KEY" | python3 -m json.tool 2>/dev/null || cat
+    # 直接查询 PostgreSQL 数据库
+    docker exec litellm-db psql -U litellm -d litellm -c "
+        SELECT
+            key_alias AS \"别名\",
+            LEFT(token, 20) || '...' AS \"Key前缀\",
+            max_budget AS \"预算\",
+            ROUND(spend::numeric, 2) AS \"已用\",
+            CASE WHEN expires IS NULL THEN '永久'
+                 ELSE TO_CHAR(expires, 'YYYY-MM-DD')
+            END AS \"过期时间\",
+            CASE WHEN blocked = true THEN '已禁用' ELSE '正常' END AS \"状态\"
+        FROM \"LiteLLM_VerificationToken\"
+        WHERE key_alias IS NOT NULL
+        ORDER BY created_at DESC;
+    " 2>/dev/null || echo "无法连接数据库，请确保容器运行中"
 }
 
 # 查看 Key 详情

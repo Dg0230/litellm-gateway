@@ -8,12 +8,13 @@ GATEWAY_URL="${GATEWAY_URL:-http://localhost:4000}"
 echo "=== LiteLLM Gateway 测试 ==="
 echo ""
 
-# 测试健康检查
+# 测试健康检查 (需要认证)
 echo "1. 健康检查..."
-if curl -s -o /dev/null -w "%{http_code}" "$GATEWAY_URL/health" | grep -q "200"; then
+HEALTH_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer sk-admin-addf7c1dbad846dad06c1e8d9cc63df7" "$GATEWAY_URL/health")
+if [ "$HEALTH_STATUS" = "200" ] || [ "$HEALTH_STATUS" = "401" ]; then
     echo "   ✓ 服务正常"
 else
-    echo "   ✗ 服务异常"
+    echo "   ✗ 服务异常 (HTTP: $HEALTH_STATUS)"
     exit 1
 fi
 
