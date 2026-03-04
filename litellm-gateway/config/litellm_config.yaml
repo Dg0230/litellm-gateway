@@ -1,0 +1,38 @@
+# LiteLLM Gateway 配置
+# 文档: https://docs.litellm.ai/docs/
+
+model_list:
+  # Coding Plan 模型 - GLM-4.7 (最强编程)
+  - model_name: gpt-4
+    litellm_params:
+      model: openai/GLM-4.7
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  - model_name: gpt-4-turbo
+    litellm_params:
+      model: openai/GLM-4.6
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  # 免费模型 - GLM-4-Flash
+  - model_name: gpt-3.5-turbo
+    litellm_params:
+      model: openai/glm-4-flash
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/paas/v4"
+
+router_settings:
+  routing_strategy: "simple-shuffle"
+  num_retries: 3
+  timeout: 120
+  retry_after: 1
+
+general_settings:
+  master_key: "os.environ/LITELLM_MASTER_KEY"
+  database_url: "os.environ/DATABASE_URL"
+
+litellm_settings:
+  max_tokens: 8192
+  drop_params: true
+  set_verbose: false
