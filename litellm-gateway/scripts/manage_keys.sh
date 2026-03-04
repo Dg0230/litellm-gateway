@@ -99,7 +99,7 @@ revoke_key() {
     curl -s -X POST "$GATEWAY_URL/key/delete" \
         -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
         -H "Content-Type: application/json" \
-        -d "{\"key\": \"$key\"}" | python3 -m json.tool 2>/dev/null || cat
+        -d "{\"keys\": [\"$key\"]}" | python3 -m json.tool 2>/dev/null || cat
 }
 
 # 测试 Key
