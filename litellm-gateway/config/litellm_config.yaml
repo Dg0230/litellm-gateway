@@ -1,22 +1,128 @@
 # LiteLLM Gateway 配置
+# 通用模型映射 - 支持 OpenAI/Anthropic 格式
 # 文档: https://docs.litellm.ai/docs/
 
 model_list:
-  # Coding Plan 模型 - GLM-4.7 (最强编程)
-  - model_name: gpt-4
+  # ===========================================
+  # Claude 兼容命名 (Claude Code / Anthropic SDK)
+  # ===========================================
+
+  # 自定义命名
+  - model_name: claude-sonnet-4.6
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  - model_name: claude-sonnet-4.5
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  # 主力模型 - Claude Sonnet 4 (映射到 GLM-5)
+  - model_name: claude-sonnet-4-20250514
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  - model_name: claude-sonnet-4
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  # 兼容旧版 - Claude 3.5 Sonnet
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  - model_name: claude-3-5-sonnet
     litellm_params:
       model: openai/GLM-4.7
       api_key: "os.environ/ZHIPUAI_API_KEY"
       api_base: "https://api.z.ai/api/coding/paas/v4"
 
-  - model_name: gpt-4-turbo
+  # 轻量模型 - Claude Haiku
+  - model_name: claude-3-5-haiku-20241022
     litellm_params:
-      model: openai/GLM-4.6
+      model: openai/glm-4-flash
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/paas/v4"
+
+  - model_name: claude-3-5-haiku
+    litellm_params:
+      model: openai/glm-4-flash
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/paas/v4"
+
+  # ===========================================
+  # OpenAI 兼容命名
+  # ===========================================
+
+  # GPT-5 系列 (映射到 GLM-5)
+  - model_name: gpt-5.3
+    litellm_params:
+      model: openai/GLM-5
       api_key: "os.environ/ZHIPUAI_API_KEY"
       api_base: "https://api.z.ai/api/coding/paas/v4"
 
-  # 免费模型 - GLM-4-Flash
+  - model_name: gpt-5.2
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  - model_name: gpt-5
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  # GPT-4o 系列 (映射到 GLM-5)
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  - model_name: gpt-4o-2024-11-20
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  # GPT-4 Turbo (映射到 GLM-4.7)
+  - model_name: gpt-4-turbo
+    litellm_params:
+      model: openai/GLM-4.7
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  - model_name: gpt-4-turbo-2024-04-09
+    litellm_params:
+      model: openai/GLM-4.7
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  # GPT-4 (映射到 GLM-5)
+  - model_name: gpt-4
+    litellm_params:
+      model: openai/GLM-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://api.z.ai/api/coding/paas/v4"
+
+  # GPT-3.5 经济版
   - model_name: gpt-3.5-turbo
+    litellm_params:
+      model: openai/glm-4-flash
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/paas/v4"
+
+  - model_name: gpt-3.5-turbo-0125
     litellm_params:
       model: openai/glm-4-flash
       api_key: "os.environ/ZHIPUAI_API_KEY"
