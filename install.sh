@@ -25,7 +25,7 @@ GATEWAY_PORT="${GATEWAY_PORT:-4000}"
 
 log_info "========================================"
 log_info "  LiteLLM Gateway 一键部署脚本"
-log_info "  支持 智谱 GLM Coding Plan"
+log_info "  支持三家 Coding Plan 提供商"
 log_info "========================================"
 echo ""
 
@@ -69,8 +69,19 @@ LITELLM_MASTER_KEY=${MASTER_KEY}
 # 加密密钥 - 用于加密存储的 API Key (首次设置后不可更改!)
 LITELLM_SALT_KEY=${SALT_KEY}
 
-# 智谱 Coding Plan API Key
-# 获取地址: https://bigmodel.cn/ (需要订阅 Coding Plan 套餐)
+# ===========================================
+# 阿里云 Coding Plan API Key
+# 获取地址: https://dashscope.console.aliyun.com/
+ALIYUN_API_KEY=YOUR_ALIYUN_CODING_PLAN_KEY_HERE
+
+# ===========================================
+# 火山引擎 Coding Plan API Key
+# 获取地址: https://console.volcengine.com/ark
+VOLCENGINE_API_KEY=YOUR_VOLCENGINE_CODING_PLAN_KEY_HERE
+
+# ===========================================
+# 智谱官方 Coding Plan API Key
+# 获取地址: https://open.bigmodel.cn/
 ZHIPUAI_API_KEY=YOUR_ZHIPUAI_CODING_PLAN_KEY_HERE
 
 # 数据库配置
@@ -82,143 +93,167 @@ chmod 600 "$INSTALL_DIR/.env"
 log_info "✓ .env 文件已生成"
 log_warn "  请编辑 $INSTALL_DIR/.env 填入你的 Coding Plan API Key"
 
-# 创建 LiteLLM 配置 - Coding Plan
+# 创建 LiteLLM 配置 - 三家 Coding Plan 提供商
 cat > "$INSTALL_DIR/config/litellm_config.yaml" << 'EOF'
 # LiteLLM Gateway 配置
-# 通用模型映射 - 支持 OpenAI/Anthropic 格式
 # 文档: https://docs.litellm.ai/docs/
 
 model_list:
   # ===========================================
-  # Claude 兼容命名 (Claude Code / Anthropic SDK)
+  # 阿里云 Coding Plan
+  # API: https://coding.dashscope.aliyuncs.com/v1
+  # 支持模型: qwen3.5-plus, qwen3-max-2026-01-23
+  #           qwen3-coder-next, qwen3-coder-plus
+  #           kimi-k2.5, MiniMax-M2.5, glm-5, glm-4.7
   # ===========================================
 
-  # 自定义命名
-  - model_name: claude-sonnet-4.6
+  - model_name: qwen3.5-plus
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/qwen3.5-plus
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: claude-sonnet-4.5
+  - model_name: qwen3-max-2026-01-23
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/qwen3-max-2026-01-23
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  # 主力模型 - Claude Sonnet 4 (映射到 GLM-5)
-  - model_name: claude-sonnet-4-20250514
+  - model_name: qwen3-coder-next
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/qwen3-coder-next
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: claude-sonnet-4
+  - model_name: qwen3-coder-plus
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/qwen3-coder-plus
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  # 兼容旧版 - Claude 3.5 Sonnet
-  - model_name: claude-3-5-sonnet-20241022
+  - model_name: kimi-k2.5
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/kimi-k2.5
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: claude-3-5-sonnet
+  - model_name: MiniMax-M2.5
     litellm_params:
-      model: openai/GLM-4.7
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/MiniMax-M2.5
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  # 轻量模型 - Claude Haiku
-  - model_name: claude-3-5-haiku-20241022
+  - model_name: glm-5
     litellm_params:
-      model: openai/glm-4-flash
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://open.bigmodel.cn/api/paas/v4"
+      model: openai/glm-5
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: claude-3-5-haiku
+  - model_name: glm-4.7
     litellm_params:
-      model: openai/glm-4-flash
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://open.bigmodel.cn/api/paas/v4"
+      model: openai/glm-4.7
+      api_key: "os.environ/ALIYUN_API_KEY"
+      api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
   # ===========================================
-  # OpenAI 兼容命名
+  # 火山引擎 Coding Plan
+  # API: https://ark.cn-beijing.volces.com/api/coding/v1
+  # 支持模型: doubao-seed-2.0-lite, doubao-seed-2.0-pro
+  #           doubao-seed-2.0-code-preview, doubao-seed-2.0-mini
+  #           deepseek-v3-2-251201, kimi-k2.5
+  #           glm-4.7, MiniMax-M2.5
   # ===========================================
 
-  # GPT-5 系列 (映射到 GLM-5)
-  - model_name: gpt-5.3
+  - model_name: doubao-seed-2.0-lite
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/doubao-seed-2.0-lite
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  - model_name: gpt-5.2
+  - model_name: doubao-seed-2.0-pro
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/doubao-seed-2.0-pro
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  - model_name: gpt-5
+  - model_name: doubao-seed-2.0-code-preview
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/doubao-seed-2.0-code-preview
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  # GPT-4o 系列 (映射到 GLM-5)
-  - model_name: gpt-4o
+  - model_name: doubao-seed-2.0-mini
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/doubao-seed-2.0-mini
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  - model_name: gpt-4o-2024-11-20
+  - model_name: deepseek-v3-2-251201
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/deepseek-v3-2-251201
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  # GPT-4 Turbo (映射到 GLM-4.7)
-  - model_name: gpt-4-turbo
+  - model_name: kimi-k2.5
     litellm_params:
-      model: openai/GLM-4.7
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/kimi-k2.5
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  - model_name: gpt-4-turbo-2024-04-09
+  - model_name: glm-4.7
     litellm_params:
-      model: openai/GLM-4.7
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/glm-4.7
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  # GPT-4 (映射到 GLM-5)
-  - model_name: gpt-4
+  - model_name: MiniMax-M2.5
     litellm_params:
-      model: openai/GLM-5
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://api.z.ai/api/coding/paas/v4"
+      model: openai/MiniMax-M2.5
+      api_key: "os.environ/VOLCENGINE_API_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  # GPT-3.5 经济版
-  - model_name: gpt-3.5-turbo
-    litellm_params:
-      model: openai/glm-4-flash
-      api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://open.bigmodel.cn/api/paas/v4"
+  # ===========================================
+  # 智谱官方 Coding Plan
+  # API: https://open.bigmodel.cn/api/coding/paas/v4
+  # 支持模型: glm-4.5, glm-4.5-air, glm-4.6, glm-4.7, glm-5
+  # ===========================================
 
-  - model_name: gpt-3.5-turbo-0125
+  - model_name: glm-4.5
     litellm_params:
-      model: openai/glm-4-flash
+      model: openai/glm-4.5
       api_key: "os.environ/ZHIPUAI_API_KEY"
-      api_base: "https://open.bigmodel.cn/api/paas/v4"
+      api_base: "https://open.bigmodel.cn/api/coding/paas/v4"
+
+  - model_name: glm-4.5-air
+    litellm_params:
+      model: openai/glm-4.5-air
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/coding/paas/v4"
+
+  - model_name: glm-4.6
+    litellm_params:
+      model: openai/glm-4.6
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/coding/paas/v4"
+
+  - model_name: glm-4.7
+    litellm_params:
+      model: openai/glm-4.7
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/coding/paas/v4"
+
+  - model_name: glm-5
+    litellm_params:
+      model: openai/glm-5
+      api_key: "os.environ/ZHIPUAI_API_KEY"
+      api_base: "https://open.bigmodel.cn/api/coding/paas/v4"
 
 router_settings:
   routing_strategy: "simple-shuffle"
   num_retries: 3
   timeout: 120
   retry_after: 1
+  model_group_retry_policy_fallback: true
 
 general_settings:
   master_key: "os.environ/LITELLM_MASTER_KEY"
@@ -231,7 +266,7 @@ litellm_settings:
   set_verbose: false
 EOF
 
-log_info "✓ LiteLLM 配置已生成 (Coding Plan)"
+log_info "✓ LiteLLM 配置已生成 (三家 Coding Plan 提供商)"
 
 # 创建 Nginx 配置
 cat > "$INSTALL_DIR/config/nginx.conf" << 'EOF'
@@ -403,7 +438,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # 所有可用模型 (必须与 litellm_config.yaml 中的 model_name 一致)
-ALL_MODELS='["claude-sonnet-4.6", "claude-sonnet-4.5", "claude-sonnet-4-20250514", "claude-sonnet-4", "claude-3-5-sonnet-20241022", "claude-3-5-sonnet", "claude-3-5-haiku-20241022", "claude-3-5-haiku", "gpt-5.3", "gpt-5.2", "gpt-5", "gpt-4o", "gpt-4o-2024-11-20", "gpt-4-turbo", "gpt-4-turbo-2024-04-09", "gpt-4", "gpt-3.5-turbo", "gpt-3.5-turbo-0125"]'
+ALL_MODELS='["qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus", "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7", "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview", "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "glm-4.5", "glm-4.5-air", "glm-4.6"]'
 
 # 创建 Key
 create_key() {
@@ -551,7 +586,7 @@ if [ -n "$1" ]; then
     curl -s "$GATEWAY_URL/v1/chat/completions" \
         -H "Authorization: Bearer $1" \
         -H "Content-Type: application/json" \
-        -d '{"model":"gpt-4","messages":[{"role":"user","content":"说你好"}],"max_tokens":20}' | python3 -m json.tool 2>/dev/null || cat
+        -d '{"model":"qwen3.5-plus","messages":[{"role":"user","content":"说你好"}],"max_tokens":20}' | python3 -m json.tool 2>/dev/null || cat
 fi
 
 echo ""
@@ -567,12 +602,14 @@ log_warn "[4/7] 配置 API Key..."
 echo ""
 echo "请编辑 $INSTALL_DIR/.env 文件，填入你的 Coding Plan API Key:"
 echo ""
-echo "  ZHIPUAI_API_KEY=你的CodingPlan密钥"
+echo "  阿里云:     ALIYUN_API_KEY=你的密钥"
+echo "  火山引擎:   VOLCENGINE_API_KEY=你的密钥"
+echo "  智谱官方:   ZHIPUAI_API_KEY=你的密钥"
 echo ""
 echo "获取方式:"
-echo "  1. 访问 https://bigmodel.cn/"
-echo "  2. 订阅 Coding Plan 套餐 (约 200 元/年)"
-echo "  3. 获取 API Key"
+echo "  阿里云:   https://dashscope.console.aliyun.com/"
+echo "  火山引擎: https://console.volcengine.com/ark"
+echo "  智谱:     https://open.bigmodel.cn/"
 echo ""
 
 read -p "已配置好 API Key? 按 Enter 继续..."
@@ -621,12 +658,16 @@ echo "📁 安装目录: $INSTALL_DIR"
 echo "🔐 管理密钥: $MASTER_KEY"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📋 模型映射:"
+echo "📋 可用模型 (16个，支持负载均衡):"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  gpt-4 / gpt-4o     → GLM-5 (Coding Plan)"
-echo "  gpt-4-turbo        → GLM-4.7 (Coding Plan)"
-echo "  claude-sonnet-4.x  → GLM-5 (Coding Plan)"
-echo "  gpt-3.5-turbo      → GLM-4-Flash (免费)"
+echo "  阿里云: qwen3.5-plus, qwen3-max, qwen3-coder-*"
+echo "          kimi-k2.5, MiniMax-M2.5, glm-5/4.7"
+echo "  火山引擎: doubao-seed-*, deepseek-v3-2"
+echo "            kimi-k2.5, MiniMax-M2.5, glm-4.7"
+echo "  智谱官方: glm-4.5, glm-4.5-air, glm-4.6"
+echo "            glm-4.7, glm-5"
+echo ""
+echo "  负载均衡: glm-4.7(3供应商), glm-5(2供应商)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "📝 常用命令:"
@@ -651,7 +692,7 @@ echo "      api_key='<分发给客户的Key>'"
 echo "  )"
 echo ""
 echo "  response = client.chat.completions.create("
-echo "      model='gpt-4',  # 实际调用 GLM-4.7"
+echo "      model='qwen3.5-plus',  # 或其他模型"
 echo "      messages=[{'role': 'user', 'content': '你好'}]"
 echo "  )"
 echo ""
