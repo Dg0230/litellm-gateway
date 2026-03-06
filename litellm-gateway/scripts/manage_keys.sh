@@ -20,7 +20,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # 所有可用模型 (必须与 litellm_config.yaml 中的 model_name 一致)
-ALL_MODELS='["claude-sonnet-4.6", "claude-sonnet-4.5", "claude-sonnet-4-20250514", "claude-sonnet-4", "claude-3-5-sonnet-20241022", "claude-3-5-sonnet", "claude-3-5-haiku-20241022", "claude-3-5-haiku", "gpt-5.3", "gpt-5.2", "gpt-5", "gpt-4o", "gpt-4o-2024-11-20", "gpt-4-turbo", "gpt-4-turbo-2024-04-09", "gpt-4", "gpt-3.5-turbo", "gpt-3.5-turbo-0125"]'
+ALL_MODELS='["qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus", "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7", "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview", "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "glm-4.5", "glm-4.5-air", "glm-4.6"]'
 
 # 创建 Key
 create_key() {

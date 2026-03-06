@@ -24,7 +24,7 @@ if [ -n "$1" ]; then
     curl -s "$GATEWAY_URL/v1/chat/completions" \
         -H "Authorization: Bearer $1" \
         -H "Content-Type: application/json" \
-        -d '{"model":"gpt-4","messages":[{"role":"user","content":"say hello"}],"max_tokens":20}' | python3 -m json.tool 2>/dev/null || cat
+        -d '{"model":"qwen3.5-plus","messages":[{"role":"user","content":"say hello"}],"max_tokens":20}' | python3 -m json.tool 2>/dev/null || cat
 fi
 
 echo ""
