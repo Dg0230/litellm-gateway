@@ -1,0 +1,8 @@
+# 保存的 Keys (包含敏感信息)
+scripts/.saved_keys
+
+# 数据
+data/
+
+# 日志
+logs/
