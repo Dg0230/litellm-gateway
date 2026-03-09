@@ -116,6 +116,31 @@ model_list:
       api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
   # ===========================================
+  # 火山引擎 图像模型 (专用 Key)
+  # API: https://ark.cn-beijing.volces.com/api/v3
+  # 支持模型: doubao-seed-2-0-pro/lite (视觉理解)
+  #           doubao-seedream-4-5 (图像生成)
+  # ===========================================
+
+  - model_name: doubao-seed-2-0-pro-vision
+    litellm_params:
+      model: openai/doubao-seed-2-0-pro-260215
+      api_key: "os.environ/VOLCENGINE_VISION_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
+
+  - model_name: doubao-seed-2-0-lite-vision
+    litellm_params:
+      model: openai/doubao-seed-2-0-lite-260215
+      api_key: "os.environ/VOLCENGINE_VISION_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
+
+  - model_name: doubao-seedream-4-5
+    litellm_params:
+      model: openai/doubao-seedream-4-5-251128
+      api_key: "os.environ/VOLCENGINE_VISION_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
+
+  # ===========================================
   # 智谱官方 Coding Plan
   # API: https://open.bigmodel.cn/api/coding/paas/v4
   # 支持模型: glm-4.5, glm-4.5-air, glm-4.6, glm-4.7, glm-5
