@@ -20,7 +20,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # 所有可用模型 (必须与 litellm_config.yaml 中的 model_name 一致)
-ALL_MODELS='["qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus", "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7", "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview", "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "glm-4.5", "glm-4.5-air", "glm-4.6"]'
+ALL_MODELS='["qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus", "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7", "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview", "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "glm-4.5", "glm-4.5-air", "glm-4.6", "doubao-seed-2-0-pro-vision", "doubao-seed-2-0-lite-vision", "doubao-seedream-4-5"]'
 
 # 创建 Key
 create_key() {

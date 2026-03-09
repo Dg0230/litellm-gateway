@@ -79,6 +79,9 @@ ALIYUN_API_KEY=YOUR_ALIYUN_CODING_PLAN_KEY_HERE
 # 获取地址: https://console.volcengine.com/ark
 VOLCENGINE_API_KEY=YOUR_VOLCENGINE_CODING_PLAN_KEY_HERE
 
+# 火山引擎 视觉模型专用 Key
+VOLCENGINE_VISION_KEY=YOUR_VOLCENGINE_VISION_KEY_HERE
+
 # ===========================================
 # 智谱官方 Coding Plan API Key
 # 获取地址: https://open.bigmodel.cn/
@@ -211,6 +214,31 @@ model_list:
       model: openai/MiniMax-M2.5
       api_key: "os.environ/VOLCENGINE_API_KEY"
       api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
+
+  # ===========================================
+  # 火山引擎 视觉模型 (专用 Key)
+  # API: https://ark.cn-beijing.volces.com/api/v3
+  # 支持模型: doubao-seed-2-0-pro/lite (视觉理解)
+  #           doubao-seedream-4-5 (图像生成)
+  # ===========================================
+
+  - model_name: doubao-seed-2-0-pro-vision
+    litellm_params:
+      model: openai/doubao-seed-2-0-pro-260215
+      api_key: "os.environ/VOLCENGINE_VISION_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
+
+  - model_name: doubao-seed-2-0-lite-vision
+    litellm_params:
+      model: openai/doubao-seed-2-0-lite-260215
+      api_key: "os.environ/VOLCENGINE_VISION_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
+
+  - model_name: doubao-seedream-4-5
+    litellm_params:
+      model: openai/doubao-seedream-4-5-251128
+      api_key: "os.environ/VOLCENGINE_VISION_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
 
   # ===========================================
   # 智谱官方 Coding Plan
@@ -438,7 +466,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # 所有可用模型 (必须与 litellm_config.yaml 中的 model_name 一致)
-ALL_MODELS='["qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus", "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7", "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview", "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "glm-4.5", "glm-4.5-air", "glm-4.6"]'
+ALL_MODELS='["qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus", "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7", "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview", "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "glm-4.5", "glm-4.5-air", "glm-4.6", "doubao-seed-2-0-pro-vision", "doubao-seed-2-0-lite-vision", "doubao-seedream-4-5"]'
 
 # 创建 Key
 create_key() {
@@ -658,12 +686,14 @@ echo "📁 安装目录: $INSTALL_DIR"
 echo "🔐 管理密钥: $MASTER_KEY"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📋 可用模型 (16个，支持负载均衡):"
+echo "📋 可用模型 (19个，支持负载均衡):"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  阿里云: qwen3.5-plus, qwen3-max, qwen3-coder-*"
 echo "          kimi-k2.5, MiniMax-M2.5, glm-5/4.7"
 echo "  火山引擎: doubao-seed-*, deepseek-v3-2"
 echo "            kimi-k2.5, MiniMax-M2.5, glm-4.7"
+echo "  火山视觉: doubao-seed-2-0-pro/lite-vision"
+echo "            doubao-seedream-4-5 (图像生成)"
 echo "  智谱官方: glm-4.5, glm-4.5-air, glm-4.6"
 echo "            glm-4.7, glm-5"
 echo ""
