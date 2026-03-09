@@ -42,13 +42,14 @@ ALL_MODELS = [
     "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview",
     "doubao-seed-2.0-mini", "deepseek-v3-2-251201",
     "doubao-seed-2-0-pro-vision", "doubao-seed-2-0-lite-vision", "doubao-seedream-4-5",
+    "doubao-seedream-5-0",
     "glm-4.5", "glm-4.5-air", "glm-4.6",
 ]
 
 # 模型菜单
 MODEL_MENU = """
     ══════════════════════════════════════
-    [0] 全部模型 (19个)
+    [0] 全部模型 (20个)
 
     ── 阿里云 ──
       [ 1] qwen3.5-plus
@@ -71,11 +72,12 @@ MODEL_MENU = """
       [14] doubao-seed-2-0-pro-vision
       [15] doubao-seed-2-0-lite-vision
       [16] doubao-seedream-4-5
+      [17] doubao-seedream-5-0
 
     ── 智谱官方 ──
-      [17] glm-4.5
-      [18] glm-4.5-air
-      [19] glm-4.6
+      [18] glm-4.5
+      [19] glm-4.5-air
+      [20] glm-4.6
 """
 
 def load_env():

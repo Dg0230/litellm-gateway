@@ -120,6 +120,7 @@ model_list:
   # API: https://ark.cn-beijing.volces.com/api/v3
   # 支持模型: doubao-seed-2-0-pro/lite (视觉理解)
   #           doubao-seedream-4-5 (图像生成)
+  #           doubao-seedream-5-0 (图像生成)
   # ===========================================
 
   - model_name: doubao-seed-2-0-pro-vision
@@ -137,6 +138,12 @@ model_list:
   - model_name: doubao-seedream-4-5
     litellm_params:
       model: openai/doubao-seedream-4-5-251128
+      api_key: "os.environ/VOLCENGINE_VISION_KEY"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
+
+  - model_name: doubao-seedream-5-0
+    litellm_params:
+      model: openai/doubao-seedream-5-0-260128
       api_key: "os.environ/VOLCENGINE_VISION_KEY"
       api_base: "https://ark.cn-beijing.volces.com/api/v3"
 
