@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # LiteLLM Key 管理脚本 (交互式)
+# 兼容 macOS 旧版 bash
 #
 
 # 从 .env 读取配置
@@ -20,92 +21,122 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# 所有可用模型 (分类)
-declare -A MODEL_GROUPS
-MODEL_GROUPS["阿里云"]="qwen3.5-plus qwen3-max-2026-01-23 qwen3-coder-next qwen3-coder-plus"
-MODEL_GROUPS["阿里云"]+=" kimi-k2.5 MiniMax-M2.5 glm-5 glm-4.7"
-MODEL_GROUPS["火山引擎-聊天"]="doubao-seed-2.0-lite doubao-seed-2.0-pro doubao-seed-2.0-code-preview doubao-seed-2.0-mini"
-MODEL_GROUPS["火山引擎-聊天"]+=" deepseek-v3-2-251201 kimi-k2.5 glm-4.7 MiniMax-M2.5"
-MODEL_GROUPS["火山引擎-视觉"]="doubao-seed-2-0-pro-vision doubao-seed-2-0-lite-vision doubao-seedream-4-5"
-MODEL_GROUPS["智谱官方"]="glm-4.5 glm-4.5-air glm-4.6 glm-4.7 glm-5"
-
-# 所有模型列表
-ALL_MODELS=(
-    "qwen3.5-plus" "qwen3-max-2026-01-23" "qwen3-coder-next" "qwen3-coder-plus"
-    "kimi-k2.5" "MiniMax-M2.5" "glm-5" "glm-4.7"
-    "doubao-seed-2.0-lite" "doubao-seed-2.0-pro" "doubao-seed-2.0-code-preview" "doubao-seed-2.0-mini"
-    "deepseek-v3-2-251201"
-    "doubao-seed-2-0-pro-vision" "doubao-seed-2-0-lite-vision" "doubao-seedream-4-5"
-    "glm-4.5" "glm-4.5-air" "glm-4.6"
+# 所有模型列表 (编号:名称)
+MODELS=(
+    "1:qwen3.5-plus"
+    "2:qwen3-max-2026-01-23"
+    "3:qwen3-coder-next"
+    "4:qwen3-coder-plus"
+    "5:kimi-k2.5"
+    "6:MiniMax-M2.5"
+    "7:glm-5"
+    "8:glm-4.7"
+    "9:doubao-seed-2.0-lite"
+    "10:doubao-seed-2.0-pro"
+    "11:doubao-seed-2.0-code-preview"
+    "12:doubao-seed-2.0-mini"
+    "13:deepseek-v3-2-251201"
+    "14:glm-4.5"
+    "15:glm-4.5-air"
+    "16:glm-4.6"
+    "17:doubao-seed-2-0-pro-vision"
+    "18:doubao-seed-2-0-lite-vision"
+    "19:doubao-seedream-4-5"
 )
 
-# 交互式选择模型
-select_models() {
-    local selected_models=()
-    local all_selected=false
-
+# 显示模型选择菜单
+show_model_menu() {
     echo ""
     printf "${BLUE}════════════════════════════════════════${NC}\n"
     printf "${BLUE}        模型选择 (空格多选, 回车确认)       ${NC}\n"
     printf "${BLUE}════════════════════════════════════════${NC}\n"
-
     echo ""
     printf "${GREEN}[0] 全部模型 (19个)${NC}\n"
     echo ""
+    printf "${YELLOW}── 阿里云 ──${NC}\n"
+    printf "  [ 1] qwen3.5-plus\n"
+    printf "  [ 2] qwen3-max-2026-01-23\n"
+    printf "  [ 3] qwen3-coder-next\n"
+    printf "  [ 4] qwen3-coder-plus\n"
+    printf "  [ 5] kimi-k2.5\n"
+    printf "  [ 6] MiniMax-M2.5\n"
+    printf "  [ 7] glm-5\n"
+    printf "  [ 8] glm-4.7\n"
+    echo ""
+    printf "${YELLOW}── 火山引擎-聊天 ──${NC}\n"
+    printf "  [ 9] doubao-seed-2.0-lite\n"
+    printf "  [10] doubao-seed-2.0-pro\n"
+    printf "  [11] doubao-seed-2.0-code-preview\n"
+    printf "  [12] doubao-seed-2.0-mini\n"
+    printf "  [13] deepseek-v3-2-251201\n"
+    echo ""
+    printf "${YELLOW}── 火山引擎-视觉 ──${NC}\n"
+    printf "  [17] doubao-seed-2-0-pro-vision\n"
+    printf "  [18] doubao-seed-2-0-lite-vision\n"
+    printf "  [19] doubao-seedream-4-5\n"
+    echo ""
+    printf "${YELLOW}── 智谱官方 ──${NC}\n"
+    printf "  [14] glm-4.5\n"
+    printf "  [15] glm-4.5-air\n"
+    printf "  [16] glm-4.6\n"
+    printf "  [ 8] glm-4.7 (负载均衡)\n"
+    printf "  [ 7] glm-5 (负载均衡)\n"
+    echo ""
+}
 
-    local idx=1
-    for group in "${!MODEL_GROUPS[@]}"; do
-        printf "${YELLOW}── $group ──${NC}\n"
-        for model in ${MODEL_GROUPS[$group]}; do
-            printf "  [%2d] %s\n" $idx "$model"
-            ((idx++))
-        done
-        echo ""
+# 根据编号获取模型名
+get_model_by_id() {
+    local id=$1
+    for entry in "${MODELS[@]}"; do
+        local num="${entry%%:*}"
+        local name="${entry#*:}"
+        if [ "$num" = "$id" ]; then
+            echo "$name"
+            return
+        fi
     done
+    echo ""
+}
+
+# 交互式选择模型
+select_models() {
+    show_model_menu
 
     printf "${BLUE}请输入模型编号 (多个用空格分隔, 0=全部): ${NC}"
     read -r choices
 
-    # 解析选择
+    # 检查是否选择全部
     for choice in $choices; do
-        if [ "$choice" == "0" ]; then
-            all_selected=true
-            break
-        fi
-        if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le ${#ALL_MODELS[@]} ]; then
-            selected_models+=("${ALL_MODELS[$((choice-1))]}")
+        if [ "$choice" = "0" ]; then
+            echo '["qwen3.5-plus","qwen3-max-2026-01-23","qwen3-coder-next","qwen3-coder-plus","kimi-k2.5","MiniMax-M2.5","glm-5","glm-4.7","doubao-seed-2.0-lite","doubao-seed-2.0-pro","doubao-seed-2.0-code-preview","doubao-seed-2.0-mini","deepseek-v3-2-251201","glm-4.5","glm-4.5-air","glm-4.6","doubao-seed-2-0-pro-vision","doubao-seed-2-0-lite-vision","doubao-seedream-4-5"]'
+            return
         fi
     done
 
-    if [ "$all_selected" = true ]; then
-        echo "["
-        echo "  \"qwen3.5-plus\", \"qwen3-max-2026-01-23\", \"qwen3-coder-next\", \"qwen3-coder-plus\","
-        echo "  \"kimi-k2.5\", \"MiniMax-M2.5\", \"glm-5\", \"glm-4.7\","
-        echo "  \"doubao-seed-2.0-lite\", \"doubao-seed-2.0-pro\", \"doubao-seed-2.0-code-preview\", \"doubao-seed-2.0-mini\","
-        echo "  \"deepseek-v3-2-251201\", \"glm-4.5\", \"glm-4.5-air\", \"glm-4.6\","
-        echo "  \"doubao-seed-2-0-pro-vision\", \"doubao-seed-2-0-lite-vision\", \"doubao-seedream-4-5\""
-        echo "]"
-        return
-    fi
-
-    if [ ${#selected_models[@]} -eq 0 ]; then
-        printf "${RED}未选择任何模型，使用全部模型${NC}\n"
-        echo "[\"all\"]"
-        return
-    fi
-
-    # 输出 JSON 数组
-    echo -n "["
+    # 构建选择的模型列表
+    local models_json="["
     local first=true
-    for model in "${selected_models[@]}"; do
-        if [ "$first" = true ]; then
-            first=false
-        else
-            echo -n ", "
+    for choice in $choices; do
+        local model
+        model=$(get_model_by_id "$choice")
+        if [ -n "$model" ]; then
+            if [ "$first" = true ]; then
+                first=false
+            else
+                models_json="$models_json,"
+            fi
+            models_json="$models_json\"$model\""
         fi
-        echo -n "\"$model\""
     done
-    echo "]"
+    models_json="$models_json]"
+
+    if [ "$models_json" = "[]" ]; then
+        printf "${RED}未选择任何模型，使用全部模型${NC}\n"
+        echo '["all"]'
+        return
+    fi
+
+    echo "$models_json"
 }
 
 # 创建 Key (交互式)
@@ -128,13 +159,13 @@ create_key_interactive() {
     models_json=$(select_models)
 
     printf "\n${GREEN}创建 Key: $alias${NC}\n"
-    printf "  预算: \$$budget\n"
-    printf "  有效期: ${days}天\n"
-    printf "  模型: %s\n" "$(echo "$models_json" | tr '\n' ' ' | head -c 80)..."
+    printf "  预算: \$%s\n" "$budget"
+    printf "  有效期: %s天\n" "$days"
+    printf "  模型: %s\n" "$(echo "$models_json" | tr -d '\n' | head -c 100)..."
     echo ""
     printf "${YELLOW}确认创建? [Y/n]: ${NC}"
     read -r confirm
-    if [ "$confirm" == "n" ] || [ "$confirm" == "N" ]; then
+    if [ "$confirm" = "n" ] || [ "$confirm" = "N" ]; then
         printf "${RED}已取消${NC}\n"
         exit 0
     fi
@@ -162,9 +193,9 @@ create_key() {
         exit 1
     fi
 
-    printf "${GREEN}创建 Key: $alias (预算: \$$budget, 有效期: ${days}天, 全模型)${NC}\n"
+    printf "${GREEN}创建 Key: $alias (预算: \$%s, 有效期: %s天, 全模型)${NC}\n" "$budget" "$days"
 
-    local models_json='["qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus", "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7", "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview", "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "glm-4.5", "glm-4.5-air", "glm-4.6", "doubao-seed-2-0-pro-vision", "doubao-seed-2-0-lite-vision", "doubao-seedream-4-5"]'
+    local models_json='["qwen3.5-plus","qwen3-max-2026-01-23","qwen3-coder-next","qwen3-coder-plus","kimi-k2.5","MiniMax-M2.5","glm-5","glm-4.7","doubao-seed-2.0-lite","doubao-seed-2.0-pro","doubao-seed-2.0-code-preview","doubao-seed-2.0-mini","deepseek-v3-2-251201","glm-4.5","glm-4.5-air","glm-4.6","doubao-seed-2-0-pro-vision","doubao-seed-2-0-lite-vision","doubao-seedream-4-5"]'
 
     curl -s -X POST "$GATEWAY_URL/key/generate" \
         -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
