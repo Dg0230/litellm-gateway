@@ -196,19 +196,19 @@ model_list:
     litellm_params:
       model: openai/gemini-3.1-flash-image-preview
       api_key: "os.environ/N1N_API_KEY"
-      api_base: "https://api.n1n.ai"
+      api_base: "https://api.n1n.ai/v1"
 
   - model_name: gemini-3-pro-image-preview
     litellm_params:
       model: openai/gemini-3-pro-image-preview
       api_key: "os.environ/N1N_API_KEY"
-      api_base: "https://api.n1n.ai"
+      api_base: "https://api.n1n.ai/v1"
 
   - model_name: gemini-2.5-flash-image-preview
     litellm_params:
       model: openai/gemini-2.5-flash-image-preview
       api_key: "os.environ/N1N_API_KEY"
-      api_base: "https://api.n1n.ai"
+      api_base: "https://api.n1n.ai/v1"
 
   # ===========================================
   # GPTSAPI - Gemini 图像生成模型 (OpenAI 兼容格式)
