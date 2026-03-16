@@ -44,12 +44,14 @@ ALL_MODELS = [
     "doubao-seed-2-0-pro-vision", "doubao-seed-2-0-lite-vision", "doubao-seedream-4-5",
     "doubao-seedream-5-0",
     "glm-4.5", "glm-4.5-air", "glm-4.6",
+    "gemini-3.1-flash-image-preview", "gemini-3-pro-image-preview", "gemini-2.5-flash-image-preview",
+    "gemini-3.1-flash-image-gptsapi", "gemini-3-pro-image-gptsapi", "gemini-2.5-flash-image-gptsapi",
 ]
 
 # 模型菜单
 MODEL_MENU = """
     ══════════════════════════════════════
-    [0] 全部模型 (20个)
+    [0] 全部模型 (26个)
 
     ── 阿里云 ──
       [ 1] qwen3.5-plus
@@ -78,6 +80,16 @@ MODEL_MENU = """
       [18] glm-4.5
       [19] glm-4.5-air
       [20] glm-4.6
+
+    ── n1n Gemini 图像 ──
+      [21] gemini-3.1-flash-image-preview
+      [22] gemini-3-pro-image-preview
+      [23] gemini-2.5-flash-image-preview
+
+    ── GPTSAPI Gemini 图像 ──
+      [24] gemini-3.1-flash-image-gptsapi
+      [25] gemini-3-pro-image-gptsapi
+      [26] gemini-2.5-flash-image-gptsapi
 """
 
 def load_env():
