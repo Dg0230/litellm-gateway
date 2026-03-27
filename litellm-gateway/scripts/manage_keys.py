@@ -38,30 +38,33 @@ class Color:
 # 所有模型
 ALL_MODELS = [
     "qwen3.5-plus", "qwen3-max-2026-01-23", "qwen3-coder-next", "qwen3-coder-plus",
-    "kimi-k2.5", "MiniMax-M2.5", "glm-5", "glm-4.7",
+    "kimi-k2.5-aliyun", "MiniMax-M2.5-aliyun", "glm-5-aliyun", "glm-4.7-aliyun",
     "doubao-seed-2.0-lite", "doubao-seed-2.0-pro", "doubao-seed-2.0-code-preview",
-    "doubao-seed-2.0-mini", "deepseek-v3-2-251201",
+    "doubao-seed-2.0-mini", "deepseek-v3-2-251201", "kimi-k2.5-volc", "glm-4.7-volc",
+    "MiniMax-M2.5-volc",
     "doubao-seed-2-0-pro-vision", "doubao-seed-2-0-lite-vision", "doubao-seedream-4-5",
     "doubao-seedream-5-0",
-    "glm-4.5", "glm-4.5-air", "glm-4.6",
+    "glm-4.5", "glm-4.5-air", "glm-4.6", "glm-4.7", "glm-5",
     "gemini-3.1-flash-image-preview", "gemini-3-pro-image-preview", "gemini-2.5-flash-image-preview",
     "gemini-3.1-flash-image-gptsapi", "gemini-3-pro-image-gptsapi", "gemini-2.5-flash-image-gptsapi",
+    "claude-sonnet-4-6-ixiaozu", "claude-opus-4-6-ixiaozu", "claude-opus-4-5-20251101-ixiaozu",
+    "claude-sonnet-4-5-20250929-ixiaozu", "claude-haiku-4-5-20251001-ixiaozu",
 ]
 
 # 模型菜单
 MODEL_MENU = """
     ══════════════════════════════════════
-    [0] 全部模型 (26个)
+    [0] 全部模型 (36个)
 
     ── 阿里云 ──
       [ 1] qwen3.5-plus
       [ 2] qwen3-max-2026-01-23
       [ 3] qwen3-coder-next
       [ 4] qwen3-coder-plus
-      [ 5] kimi-k2.5
-      [ 6] MiniMax-M2.5
-      [ 7] glm-5
-      [ 8] glm-4.7
+      [ 5] kimi-k2.5-aliyun
+      [ 6] MiniMax-M2.5-aliyun
+      [ 7] glm-5-aliyun
+      [ 8] glm-4.7-aliyun
 
     ── 火山引擎-聊天 ──
       [ 9] doubao-seed-2.0-lite
@@ -69,27 +72,39 @@ MODEL_MENU = """
       [11] doubao-seed-2.0-code-preview
       [12] doubao-seed-2.0-mini
       [13] deepseek-v3-2-251201
+      [14] kimi-k2.5-volc
+      [15] glm-4.7-volc
+      [16] MiniMax-M2.5-volc
 
     ── 火山引擎-视觉 ──
-      [14] doubao-seed-2-0-pro-vision
-      [15] doubao-seed-2-0-lite-vision
-      [16] doubao-seedream-4-5
-      [17] doubao-seedream-5-0
+      [17] doubao-seed-2-0-pro-vision
+      [18] doubao-seed-2-0-lite-vision
+      [19] doubao-seedream-4-5
+      [20] doubao-seedream-5-0
 
     ── 智谱官方 ──
-      [18] glm-4.5
-      [19] glm-4.5-air
-      [20] glm-4.6
+      [21] glm-4.5
+      [22] glm-4.5-air
+      [23] glm-4.6
+      [24] glm-4.7
+      [25] glm-5
 
     ── n1n Gemini 图像 ──
-      [21] gemini-3.1-flash-image-preview
-      [22] gemini-3-pro-image-preview
-      [23] gemini-2.5-flash-image-preview
+      [26] gemini-3.1-flash-image-preview
+      [27] gemini-3-pro-image-preview
+      [28] gemini-2.5-flash-image-preview
 
     ── GPTSAPI Gemini 图像 ──
-      [24] gemini-3.1-flash-image-gptsapi
-      [25] gemini-3-pro-image-gptsapi
-      [26] gemini-2.5-flash-image-gptsapi
+      [29] gemini-3.1-flash-image-gptsapi
+      [30] gemini-3-pro-image-gptsapi
+      [31] gemini-2.5-flash-image-gptsapi
+
+    ── ixiaozu Claude ──
+      [32] claude-sonnet-4-6-ixiaozu
+      [33] claude-opus-4-6-ixiaozu
+      [34] claude-opus-4-5-20251101-ixiaozu
+      [35] claude-sonnet-4-5-20250929-ixiaozu
+      [36] claude-haiku-4-5-20251001-ixiaozu
 """
 
 def load_env():

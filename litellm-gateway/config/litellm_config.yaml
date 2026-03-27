@@ -34,25 +34,25 @@ model_list:
       api_key: "os.environ/ALIYUN_API_KEY"
       api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: kimi-k2.5
+  - model_name: kimi-k2.5-aliyun
     litellm_params:
       model: openai/kimi-k2.5
       api_key: "os.environ/ALIYUN_API_KEY"
       api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: MiniMax-M2.5
+  - model_name: MiniMax-M2.5-aliyun
     litellm_params:
       model: openai/MiniMax-M2.5
       api_key: "os.environ/ALIYUN_API_KEY"
       api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: glm-5
+  - model_name: glm-5-aliyun
     litellm_params:
       model: openai/glm-5
       api_key: "os.environ/ALIYUN_API_KEY"
       api_base: "https://coding.dashscope.aliyuncs.com/v1"
 
-  - model_name: glm-4.7
+  - model_name: glm-4.7-aliyun
     litellm_params:
       model: openai/glm-4.7
       api_key: "os.environ/ALIYUN_API_KEY"
@@ -97,19 +97,19 @@ model_list:
       api_key: "os.environ/VOLCENGINE_API_KEY"
       api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  - model_name: kimi-k2.5
+  - model_name: kimi-k2.5-volc
     litellm_params:
       model: openai/kimi-k2.5
       api_key: "os.environ/VOLCENGINE_API_KEY"
       api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  - model_name: glm-4.7
+  - model_name: glm-4.7-volc
     litellm_params:
       model: openai/glm-4.7
       api_key: "os.environ/VOLCENGINE_API_KEY"
       api_base: "https://ark.cn-beijing.volces.com/api/coding/v1"
 
-  - model_name: MiniMax-M2.5
+  - model_name: MiniMax-M2.5-volc
     litellm_params:
       model: openai/MiniMax-M2.5
       api_key: "os.environ/VOLCENGINE_API_KEY"
@@ -235,6 +235,47 @@ model_list:
       model: openai/gemini-2.5-flash-image-preview
       api_key: "os.environ/GPTSAPI_API_KEY"
       api_base: "https://api.gptsapi.net/v1"
+
+  # ===========================================
+  # ixiaozu Claude
+  # API: https://model.ixiaozu.cn/v1
+  # 支持模型:
+  #   claude-sonnet-4-6
+  #   claude-opus-4-6
+  #   claude-opus-4-5-20251101
+  #   claude-sonnet-4-5-20250929
+  #   claude-haiku-4-5-20251001
+  # ===========================================
+
+  - model_name: claude-sonnet-4-6-ixiaozu
+    litellm_params:
+      model: openai/claude-sonnet-4-6
+      api_key: "os.environ/IXIAOZU_API_KEY"
+      api_base: "https://model.ixiaozu.cn/v1"
+
+  - model_name: claude-opus-4-6-ixiaozu
+    litellm_params:
+      model: openai/claude-opus-4-6
+      api_key: "os.environ/IXIAOZU_API_KEY"
+      api_base: "https://model.ixiaozu.cn/v1"
+
+  - model_name: claude-opus-4-5-20251101-ixiaozu
+    litellm_params:
+      model: openai/claude-opus-4-5-20251101
+      api_key: "os.environ/IXIAOZU_API_KEY"
+      api_base: "https://model.ixiaozu.cn/v1"
+
+  - model_name: claude-sonnet-4-5-20250929-ixiaozu
+    litellm_params:
+      model: openai/claude-sonnet-4-5-20250929
+      api_key: "os.environ/IXIAOZU_API_KEY"
+      api_base: "https://model.ixiaozu.cn/v1"
+
+  - model_name: claude-haiku-4-5-20251001-ixiaozu
+    litellm_params:
+      model: openai/claude-haiku-4-5-20251001
+      api_key: "os.environ/IXIAOZU_API_KEY"
+      api_base: "https://model.ixiaozu.cn/v1"
 
 router_settings:
   routing_strategy: "simple-shuffle"
